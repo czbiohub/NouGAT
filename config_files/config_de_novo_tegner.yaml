@@ -1,0 +1,33 @@
+Pipelines:
+ QCcontrol: []
+ assemble: ["abyss", "allpaths", "soapdenovo"]
+ evaluete: []
+ align: []
+Tools:
+ fastqc:
+  bin: 
+  options: [--threads,  "20" ,  --outdir,  fastqc]
+ trimmomatic:
+  bin: 
+  options: []
+ abyss:
+  bin: /afs/pdc.kth.se/home/r/raolsen/Public/singularity-images/abyss/ 
+  options: [""]
+ soapdenovo:
+  bin: /afs/pdc.kth.se/home/r/raolsen/Public/singularity-images/soapdenovo/SOAPdenovo-63mer
+  options: [""]
+ allpaths:
+  bin: /afs/pdc.kth.se/home/r/raolsen/Public/singularity-images/allpathslg/ 
+  options: ["PLOIDY=2"]
+ bwa:
+  bin: /pdc/vol/bwa/0.7.12/bin/bwa 
+  options: ""
+ picard:
+  bin: /pdc/vol/picard-tools/1.105/dist/ 
+  options: ""
+ samtools:
+  bin: /pdc/vol/samtools/0.1.19/bin/ 
+  options: ""
+ qaTools:
+  bin: 
+  options: ""

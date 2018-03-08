@@ -207,7 +207,7 @@ def _run_allpaths(global_config, sample_config, sorted_libraries_by_insert):
     #NOW RUN ALLPATHS FOR REAL
     program=os.path.join(programBIN, "PrepareAllPathsInputs.pl")
     os.mkdir("data_dir")
-    data_dir = os.path.join(os.getcwd(), "data_dir")
+    data_dir = os.path.join(assemblyDirectory, "data_dir")
     ploidy = "PLOIDY=1"
     if len(program_options) > 0:
         if len(program_options) >1:
@@ -221,14 +221,16 @@ def _run_allpaths(global_config, sample_config, sorted_libraries_by_insert):
                     "here: PLOIDY=2")
             return sample_config
 
-    command = [program , "DATA_DIR={}".format(data_dir), ploidy, 
+    command = [program , "DATA_DIR={}".format(data_dir), ploidy,
             "PICARD_TOOLS_DIR={}".format(
-            global_config["Tools"]["picard"]["bin"]), 
-            "FORCE_PHRED=True", "PHRED_64=False"]
+            global_config["Tools"]["picard"]["bin"]),  
+            "FORCE_PHRED=True", "PHRED_64=False",
+            "IN_GROUPS_CSV={}".format(os.path.join(assemblyDirectory,"in_groups.csv")),
+            "IN_LIBS_CSV={}".format(os.path.join(assemblyDirectory,"in_libs.csv"))]
     if common.check_dryrun(sample_config):
         common.print_command(command)
         program = os.path.join(programBIN, "RunAllPathsLG")
-        command = [program, "PRE=.", "REFERENCE_NAME=.", "DATA_SUBDIR=data_dir",
+        command = [program, "PRE={}".format(assemblyDirectory), "REFERENCE_NAME=.", "DATA_SUBDIR=data_dir",
                 "RUN=allpaths", "SUBDIR=run"]
         common.print_command(command)
         os.chdir("..")
@@ -243,7 +245,7 @@ def _run_allpaths(global_config, sample_config, sorted_libraries_by_insert):
     flags = sample_config.get("flags", [])
     if returnValue == 0:
         program = os.path.join(programBIN, "RunAllPathsLG")
-        command = [program, "PRE=.", "REFERENCE_NAME=.", "DATA_SUBDIR=data_dir",
+        command = [program, "PRE={}".format(assemblyDirectory), "REFERENCE_NAME=.", "DATA_SUBDIR=data_dir",
                 "RUN=allpaths", "SUBDIR=run", "HAPLOIDIFY=True"]
         common.print_command(command)
         assembler_stdOut = open("allpaths_RunAllPathsLG.stdOut", "w")
@@ -553,7 +555,7 @@ def _run_soapdenovo(global_config, sample_config, sorted_libraries_by_insert):
     os.makedirs(os.path.join(assemblyDirectory, "runSOAP"))
     os.chdir("runSOAP")
     #TODO : lots of missing options
-    command = [programBIN , "all", "-s", "../configuration.txt", "-K",
+    command = [programBIN , "all", "-s", "{}".format(os.path.join(assemblyDirectory, "configuration.txt")), "-K",
             "{}".format(kmer), "-L", "500", "-o", "soapAssembly", threads[0],
             threads[1] ]
     common.print_command(command)
