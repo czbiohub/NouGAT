@@ -10,7 +10,7 @@ import shutil
 import numpy as np
 from matplotlib import pyplot as plt
 from nougat import common, align
-from nougat.pdf.peakdetect import peakdet 
+from nougat.pdf.peakdetect import peakdet
 
 def run(global_config, sample_config):
     sorted_libraries_by_insert = common._sort_libraries_by_insert(
@@ -114,7 +114,7 @@ def _run_abyss(global_config, sample_config, sorted_libraries_by_insert):
     os.chdir(ABySS_Kmer_Folder)
 
     program = global_config["Tools"]["abyss"]["bin"]
-    program = os.path.join(os.path.dirname(program), "ABYSS-P")
+    program = os.path.join(program, "ABYSS-P")
     program_options=global_config["Tools"]["abyss"]["options"]
     if "abyss" in sample_config:
         program_options=sample_config["abyss"]
