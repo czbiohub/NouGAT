@@ -108,8 +108,8 @@ def picard_CGbias(global_config, sample_config, sorted_alignments_by_insert):
     for library, BAMfile, working_dir in sorted_alignments_by_insert:
         os.chdir(working_dir)
         output_header = os.path.basename(BAMfile).split(".bam")[0]
-        command= ["java", "-Xmx16g", "-XX:PermSize=2g", "-jar",
-                os.path.join(picard, "CollectGcBiasMetrics.jar"),
+        command= [picard, "-Xmx16g", "-XX:PermSize=2g",
+                  "CollectGcBiasMetrics",
                 "REFERENCE_SEQUENCE={}".format(sample_config["reference"]),
                 "INPUT={}".format(BAMfile), \
                 "OUTPUT={}.collectGcBias.txt".format(output_header),
@@ -142,8 +142,8 @@ def picard_collectInsertSizeMetrics(global_config, sample_config,
         os.chdir(working_dir)
         output_header = os.path.basename(BAMfile).split(".bam")[0]
         histWide = library * 2
-        command= ["java", "-Xmx16g", "-XX:PermSize=2g", "-jar",
-                os.path.join(picard, "CollectInsertSizeMetrics.jar"),
+        command= [picard, "-Xmx16g", "-XX:PermSize=2g",
+                  "CollectInsertSizeMetrics",
                 "INPUT={}".format(BAMfile), "MINIMUM_PCT=0",
                 "HISTOGRAM_FILE={}.collectInsertSize.pdf".format(
                 output_header),
@@ -175,8 +175,7 @@ def picard_markDuplicates(global_config, sample_config,
     for library, BAMfile, working_dir in sorted_alignments_by_insert:
         os.chdir(working_dir)
         output_header = os.path.basename(BAMfile).split(".bam")[0]
-        command= ["java", "-Xmx16g", "-XX:PermSize=3g", "-jar",
-                os.path.join(picard, "MarkDuplicates.jar"),
+        command= [picard, "-Xmx16g", "-XX:PermSize=3g", "MarkDuplicates",
                 "INPUT={}".format(BAMfile), "OUTPUT={}_noDup.bam".format(
                 output_header),"METRICS_FILE={0}.markDuplicates.txt".format(
                 output_header), "ASSUME_SORTED=true",
