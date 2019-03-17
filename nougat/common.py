@@ -173,7 +173,7 @@ def _check_pipeline(sample_config, global_config):
             picard_dir = os.environ.get('PICARD_HOME')
         elif "picard" in global_config["Tools"]:
             picard_dir = global_config["Tools"]["picard"]["bin"]
-        if not os.path.isdir(picard_dir):
+        if not os.path.exists(picard_dir):
             sys.exit("align is part of the pipeline you want to run. "
                     "PicardTools must be present in the enviorment or "
                     "specified in global config "
